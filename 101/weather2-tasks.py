@@ -11,7 +11,7 @@ from prefect.tasks import task_input_hash
     retries=2,
     retry_delay_seconds=[1, 10]
 )
-def fetch_weather(lat: float = 37.77, lon: float = -122.4):
+def fetch_weather(lat: float, lon: float):
     base_url = "https://api.open-meteo.com/v1/forecast/"
     weather = httpx.get(
         base_url,
@@ -43,7 +43,7 @@ def save_weather(temp: float):
 
 
 @flow
-def pipeline(lat: float, lon: float):
+def pipeline(lat: float = 37.77, lon: float = -122.4):
     temp = fetch_weather(lat, lon)
     faren = convert_celsius_to_farenheit(temp)
     print(f"SF temp is {faren}")
