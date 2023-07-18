@@ -4,6 +4,11 @@ import httpx
 from prefect import flow, task, get_run_logger
 from prefect.tasks import task_input_hash
 
+@flow
+def setup_server_infrastructure():
+    logger = get_run_logger()
+    logger.info("Setting up server infrastructure")
+    return 'Server setup was performed'
 
 @task(
     persist_result=True,
@@ -44,6 +49,7 @@ def save_weather(temp: float):
 
 @flow
 def pipeline(lat: float = 37.77, lon: float = -122.4):
+    setup_server_infrastructure()
     temp = fetch_weather(lat, lon)
     faren = convert_celsius_to_farenheit(temp)
     print(f"SF temp is {faren}")
