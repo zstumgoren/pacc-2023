@@ -11,7 +11,7 @@ from prefect.tasks import task_input_hash
     retries=2,
     retry_delay_seconds=[1, 10]
 )
-def fetch_weather(lat: float, lon: float):
+def fetch_weather(lat: float = 37.77, lon: float = -122.4):
     base_url = "https://api.open-meteo.com/v1/forecast/"
     weather = httpx.get(
         base_url,
